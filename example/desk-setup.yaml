@@ -1,0 +1,204 @@
+monitor1:
+    name: Dell E228WFP
+    image: units/dell-e228wfp.png
+    gozintas:
+        - &mon1_dvi { name: 'DVI-D In' }
+        - &mon1_vga { name: 'VGA In' }
+
+monitor2:
+    name: Dell U2412M
+    image: units/dell-u2412m.png
+    gozintas:
+        - &mon2_dp { name: 'DisplayPort In' }
+        - &mon2_dvi { name: 'DVI-D In' }
+        - &mon2_vga { name: 'VGA In' }
+
+monitor3:
+    name: Dell U2412M
+    image: units/dell-u2412m.png
+    gozintas:
+        - &mon3_dp { name: 'DisplayPort In' }
+        - &mon3_dvi { name: 'DVI-D In' }
+        - &mon3_vga { name: 'VGA In' }
+
+headphones:
+    name: Sony MDR-W08
+    image: units/sony-mdr.png
+    gozintas:
+        - &headphones_in { name: '3.5mm In' }
+
+pc:
+    name: PC
+    image: units/pc-case.png
+    gozintas:
+        - &pc_usb { name: 'USB' }
+        - &pc_line_in { name: 'Line In' }
+        - &pc_mic_in { name: 'Front Mic In' }
+    gozoutas:
+        - { name: 'Intel HD Graphics 4600', gozta: *mon1_dvi }
+        - { name: 'NVIDIA GeForce GTX 650', gozta: [*mon2_dvi, *mon3_dvi] }
+        - { name: 'Front Headphone Out', gozta: *headphones_in }
+
+webcam:
+    name: Logitech C910
+    image: units/logitech-c910.png
+    gozoutas:
+        - { name: 'USB', gozta: *pc_usb }
+
+easycap:
+    name: EasyCap
+    image: units/easycap.png
+    gozintas:
+        - &easycap_cvbs { name: 'CBVS In' }
+        - &easycap_sv { name: 'S-Video In' }
+        - { name: 'Audio In' }
+    gozoutas:
+        - { name: 'USB', gozta: *pc_usb }
+
+viewsonic_n4:
+    name: Viewsonic N4
+    image: units/viewsonic_n4.png
+    gozintas:
+        - &scaler_vga { name: 'VGA In' }
+        - &scaler_phono { name: 'Audio In (3.5mm)' }
+        - &scaler_rca { name: 'Audio In (RCA)' }
+        - &scaler_rf { name: 'RF In' }
+        - &scaler_cvbs { name: 'CVBS In' }
+        - &scaler_sv { name: 'S-Video In' }
+    gozoutas:
+        - { name: 'VGA Out', gozta: *mon1_vga }
+        - { name: 'Audio Out (3.5mm)' }
+
+dist_amp:
+    name: RadioShack 15-320 Dist. Amp.
+    image: units/rs-dist-amp.png
+    gozintas:
+        - &amp_cvbs_in { name: 'CVBS In' }
+        - &amp_sv_in { name: 'S-Video In' }
+        - { name: 'Audio In' }
+    gozoutas:
+        - { name: 'CVBS Out x4', gozta: [*easycap_cvbs, *scaler_cvbs] }
+        - { name: 'S-Video Out x4', gozta: [*easycap_sv, *scaler_sv] }
+        - { name: 'Audio Out x4' }
+
+extron_mps:
+    name: Extron MPS112CS
+    image: units/mps112cs.png
+    gozintas:
+        - &sw_cvbs_v1 { name: 'CVBS Video In 1' }
+        - &sw_cvbs_a1 { name: 'CVBS Audio In 1' }
+        - &sw_cvbs_v2 { name: 'CVBS Video In 2' }
+        - &sw_cvbs_a2 { name: 'CVBS Audio In 2' }
+        - &sw_cvbs_v3 { name: 'CVBS Video In 3' }
+        - &sw_cvbs_a3 { name: 'CVBS Audio In 3' }
+        - &sw_cvbs_v4 { name: 'CVBS Video In 4' }
+        - &sw_cvbs_a4 { name: 'CVBS Audio In 4' }
+        - &sw_sv_v1 { name: 'S-Video Video In 1' }
+        - &sw_sv_a1 { name: 'S-Video Audio In 1' }
+        - &sw_sv_v2 { name: 'S-Video Video In 2' }
+        - &sw_sv_a2 { name: 'S-Video Audio In 2' }
+        - &sw_sv_v3 { name: 'S-Video Video In 3' }
+        - &sw_sv_a3 { name: 'S-Video Audio In 3' }
+        - &sw_sv_v4 { name: 'S-Video Video In 4' }
+        - &sw_sv_a4 { name: 'S-Video Audio In 4' }
+        - &sw_vga_v1 { name: 'VGA Video In 1' }
+        - &sw_vga_a1 { name: 'VGA Audio In 1' }
+        - &sw_vga_v2 { name: 'VGA Video In 2' }
+        - &sw_vga_a2 { name: 'VGA Audio In 2' }
+        - &sw_vga_v3 { name: 'VGA Video In 3' }
+        - &sw_vga_a3 { name: 'VGA Audio In 3' }
+        - &sw_vga_v4 { name: 'VGA Video In 4' }
+        - &sw_vga_a4 { name: 'VGA Audio In 4' }
+        - &sw_mic_in { name: 'Mic In' }
+    gozoutas:
+        - { name: 'CVBS Video Out', gozta: *amp_cvbs_in }
+        - { name: 'CVBS Audio Out' }
+        - { name: 'S-Video Video Out' }
+        - { name: 'S-Video Audio Out' }
+        - { name: 'VGA Video Out' }
+        - { name: 'VGA Audio Out' }
+        - { name: 'Master Audio Out', gozta: *pc_line_in }
+
+gen_m1_av:
+    name: Model 1 A/V Cable
+    bgcolor: '#b7c4c8'
+    gozintas:
+        - &gen_m1_av { name: 'A/V In' }
+    gozoutas:
+        - { name: 'CVBS Out', gozta: *sw_cvbs_v1 }
+        - { name: 'Mono Out' }
+
+gen_m2_av:
+    name: Model 2 A/V Cable
+    bgcolor: '#b7c4c8'
+    gozintas:
+        - &gen_m2_av { name: 'A/V In' }
+    gozoutas:
+        - { name: 'CVBS Out', gozta: *sw_cvbs_v2 }
+        - { name: 'Stereo Out', gozta: *sw_cvbs_a2 }
+
+sega_32x: &s32x
+    name: Sega 32X
+    image: units/sega-32x.png
+    gozintas:
+        - &s32x_av { name: 'A/V In' }
+    gozoutas:
+        - { name: 'A/V Out', gozta: *gen_m2_av }
+
+sega_cd: &sega_cd
+    name: Sega CD
+    image: units/sega-cd-model-2.png
+
+genesis:
+    name: Sega Genesis
+    image: units/sega-genesis-model-1.png
+    gozta: [*s32x, *sega_cd]
+    gozoutas:
+        - { name: 'Headphone Out', gozta: *sw_cvbs_a1 }
+        - { name: 'A/V Out', gozta: [*gen_m1_av, *s32x_av] }
+
+wii_av:
+    name: Wii A/V Cable
+    gozintas:
+        - &wii_av_in { name: 'A/V' }
+    gozoutas:
+        - { name: 'CVBS Out', gozta: *sw_cvbs_v3 }
+        - { name: 'Stereo Out', gozta: *sw_cvbs_a3 }
+
+wii:
+    name: Nintendo Wii
+    image: units/nintendo-wii.png
+    bgcolor: '#dddddd'
+    gozoutas:
+        - { name: 'A/V Out', gozta: *wii_av_in }
+
+#super_nintendo:
+#    name: Super Nintendo
+#    image: units/super-nintendo.png
+#    gozoutas:
+#        - { name: 'A/V out' }
+
+#nintendo_64:
+#    name: Nintendo 64
+#    image: units/nintendo-64.png
+#    gozoutas:
+#        - { name: 'A/V out' }
+
+#playstation:
+#    name: Sony Playstation
+#    image: units/playstation.png
+#    gozoutas:
+#        - { name: 'A/V out' }
+
+#xbox:
+#    name: Microsoft XBox
+#    image: units/xbox.png
+#    gozoutas:
+#        - { name: 'A/V out' }
+
+#xbox_360:
+#    name: Microsoft XBox 360
+#    image: units/xbox-360.png
+#    gozoutas:
+#        - { name: 'A/V out' }
+
