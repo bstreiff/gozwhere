@@ -34,6 +34,7 @@ pc:
         - &pc_usb { name: 'USB' }
         - &pc_line_in { name: 'Line In' }
         - &pc_mic_in { name: 'Front Mic In' }
+        - &pc_datapath_in { name: 'Datapath VisionRGB-E1S' }
     gozoutas:
         - { name: 'Intel HD Graphics 4600', gozta: *mon1_dvi }
         - { name: 'NVIDIA GeForce GTX 650', gozta: [*mon2_dvi, *mon3_dvi] }
@@ -45,41 +46,59 @@ webcam:
     gozoutas:
         - { name: 'USB', gozta: *pc_usb }
 
-easycap:
-    name: EasyCap
-    image: units/easycap.png
-    gozintas:
-        - &easycap_cvbs { name: 'CBVS In' }
-        - &easycap_sv { name: 'S-Video In' }
-        - { name: 'Audio In' }
-    gozoutas:
-        - { name: 'USB', gozta: *pc_usb }
+# easycap:
+#     name: EasyCap
+#     image: units/easycap.png
+#     gozintas:
+#         - &easycap_cvbs { name: 'CBVS In' }
+#         - &easycap_sv { name: 'S-Video In' }
+#         - { name: 'Audio In' }
+#     gozoutas:
+#         - { name: 'USB', gozta: *pc_usb }
 
-viewsonic_n4:
-    name: Viewsonic N4
-    image: units/viewsonic_n4.png
+# viewsonic_n4:
+#     name: Viewsonic N4
+#     image: units/viewsonic_n4.png
+#     gozintas:
+#         - &scaler_vga { name: 'VGA In' }
+#         - &scaler_phono { name: 'Audio In (3.5mm)' }
+#         - &scaler_rca { name: 'Audio In (RCA)' }
+#         - &scaler_rf { name: 'RF In' }
+#         - &scaler_cvbs { name: 'CVBS In' }
+#         - &scaler_sv { name: 'S-Video In' }
+#     gozoutas:
+#         - { name: 'VGA Out', gozta: *mon1_vga }
+#         - { name: 'Audio Out (3.5mm)' }
+
+# dist_amp:
+#     name: RadioShack 15-320 Dist. Amp.
+#     image: units/rs-dist-amp.png
+#     gozintas:
+#         - &amp_cvbs_in { name: 'CVBS In' }
+#         - &amp_sv_in { name: 'S-Video In' }
+#         - { name: 'Audio In' }
+#     gozoutas:
+#         - { name: 'CVBS Out x4', gozta: [*easycap_cvbs, *scaler_cvbs] }
+#         - { name: 'S-Video Out x4', gozta: [*easycap_sv, *scaler_sv] }
+#         - { name: 'Audio Out x4' }
+
+bnc_to_vga:
+    name: '5xBNC to HD15 Adapter'
     gozintas:
-        - &scaler_vga { name: 'VGA In' }
-        - &scaler_phono { name: 'Audio In (3.5mm)' }
-        - &scaler_rca { name: 'Audio In (RCA)' }
-        - &scaler_rf { name: 'RF In' }
+        - &bnc_to_vga_in { name: '5xBNC in' }
+    gozoutas:
+        - { name: 'HD15 Out', gozta: *pc_datapath_in }
+
+extron_dvs:
+    name: Extron DVS304
+    image: units/dvs304.png
+    gozintas:
         - &scaler_cvbs { name: 'CVBS In' }
         - &scaler_sv { name: 'S-Video In' }
+        - &scaler_vga { name: 'HD15 In' }
     gozoutas:
-        - { name: 'VGA Out', gozta: *mon1_vga }
-        - { name: 'Audio Out (3.5mm)' }
-
-dist_amp:
-    name: RadioShack 15-320 Dist. Amp.
-    image: units/rs-dist-amp.png
-    gozintas:
-        - &amp_cvbs_in { name: 'CVBS In' }
-        - &amp_sv_in { name: 'S-Video In' }
-        - { name: 'Audio In' }
-    gozoutas:
-        - { name: 'CVBS Out x4', gozta: [*easycap_cvbs, *scaler_cvbs] }
-        - { name: 'S-Video Out x4', gozta: [*easycap_sv, *scaler_sv] }
-        - { name: 'Audio Out x4' }
+        - { name: 'VGA (HD15) Out', gozta: *mon1_vga }
+        - { name: 'VGA (BNC) Out', gozta: *bnc_to_vga_in }
 
 extron_mps:
     name: Extron MPS112CS
@@ -111,11 +130,11 @@ extron_mps:
         - &sw_vga_a4 { name: 'VGA Audio In 4' }
         - &sw_mic_in { name: 'Mic In' }
     gozoutas:
-        - { name: 'CVBS Video Out', gozta: *amp_cvbs_in }
+        - { name: 'CVBS Video Out', gozta: *scaler_cvbs }
         - { name: 'CVBS Audio Out' }
-        - { name: 'S-Video Video Out' }
+        - { name: 'S-Video Video Out', gozta: *scaler_sv }
         - { name: 'S-Video Audio Out' }
-        - { name: 'VGA Video Out' }
+        - { name: 'VGA Video Out', gozta: *scaler_vga }
         - { name: 'VGA Audio Out' }
         - { name: 'Master Audio Out', gozta: *pc_line_in }
 
@@ -157,13 +176,20 @@ genesis:
         - { name: 'Headphone Out', gozta: *sw_cvbs_a1 }
         - { name: 'A/V Out', gozta: [*gen_m1_av, *s32x_av] }
 
+ypbpr_to_vga2:
+    name: '3xRCA to HD15 adapter'
+    gozintas:
+        - &ypbpr_to_vga2_in { name: 'YPbPr In' }
+    gozoutas:
+        - { name: 'HD15 Out', gozta: *sw_vga_v2 }
+
 wii_av:
-    name: Wii A/V Cable
+    name: Wii Component A/V Cable
     gozintas:
         - &wii_av_in { name: 'A/V' }
     gozoutas:
-        - { name: 'CVBS Out', gozta: *sw_cvbs_v3 }
-        - { name: 'Stereo Out', gozta: *sw_cvbs_a3 }
+        - { name: 'YPbPr Out', gozta: *ypbpr_to_vga2_in }
+        - { name: 'Stereo Out', gozta: *sw_vga_a2 }
 
 wii:
     name: Nintendo Wii
@@ -172,11 +198,19 @@ wii:
     gozoutas:
         - { name: 'A/V Out', gozta: *wii_av_in }
 
-#super_nintendo:
-#    name: Super Nintendo
-#    image: units/super-nintendo.png
-#    gozoutas:
-#        - { name: 'A/V out' }
+snes_av:
+    name: SNES S-Video A/V Cable
+    gozintas:
+        - &snes_av_in { name: 'A/V' }
+    gozoutas:
+        - { name: 'S-Video Out', gozta: *sw_sv_v1 }
+        - { name: 'Stereo Out', gozta: *sw_sv_a1 }
+
+super_nintendo:
+    name: Super Nintendo
+    image: units/super-nintendo.png
+    gozoutas:
+        - { name: 'A/V out', gozta: *snes_av_in }
 
 #nintendo_64:
 #    name: Nintendo 64
@@ -190,11 +224,26 @@ wii:
 #    gozoutas:
 #        - { name: 'A/V out' }
 
-#xbox:
-#    name: Microsoft XBox
-#    image: units/xbox.png
-#    gozoutas:
-#        - { name: 'A/V out' }
+ypbpr_to_vga1:
+    name: '3xRCA to HD15 adapter'
+    gozintas:
+        - &ypbpr_to_vga1_in { name: 'YPbPr In' }
+    gozoutas:
+        - { name: 'HD15 Out', gozta: *sw_vga_v1 }
+
+xbox_ypbpr_av:
+    name: XBox Component A/V Cable
+    gozintas:
+        - &xbox_ypbpr_av_in { name: 'A/V In' }
+    gozoutas:
+        - { name: 'YPbPr Out', gozta: *ypbpr_to_vga1_in }
+        - { name: 'Stereo Out', gozta: *sw_vga_a1 }
+
+xbox:
+    name: Microsoft XBox
+    image: units/xbox.png
+    gozoutas:
+        - { name: 'A/V out', gozta: *xbox_ypbpr_av_in }
 
 #xbox_360:
 #    name: Microsoft XBox 360
