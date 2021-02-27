@@ -34,11 +34,25 @@ pc:
         - &pc_usb { name: 'USB' }
         - &pc_line_in { name: 'Line In' }
         - &pc_mic_in { name: 'Front Mic In' }
-        - &pc_datapath_in { name: 'Datapath VisionRGB-E1S' }
     gozoutas:
         - { name: 'Intel HD Graphics 4600', gozta: *mon1_dvi }
         - { name: 'NVIDIA GeForce GTX 650', gozta: [*mon2_dvi, *mon3_dvi] }
         - { name: 'Front Headphone Out', gozta: *headphones_in }
+
+hdmi_cap:
+    name: HDMI Capture Dongle
+    gozintas:
+        - &hdmi_cap_in { name: 'HDMI in' }
+    gozoutas:
+        - { name: 'USB out', gozta: *pc_usb }
+
+vga_to_hdmi1:
+    name: VGA-to-HDMI
+    gozintas:
+        - &vga_to_hdmi1_in { name: 'VGA in' }
+        - &vga_to_hdmi1_audio_in { name: '3.5mm in' }
+    gozoutas:
+        - { name: 'HDMI out', gozta: *hdmi_cap_in }
 
 webcam:
     name: Logitech C910
@@ -87,7 +101,7 @@ bnc_to_vga:
     gozintas:
         - &bnc_to_vga_in { name: '5xBNC in' }
     gozoutas:
-        - { name: 'HD15 Out', gozta: *pc_datapath_in }
+        - { name: 'HD15 Out', gozta: *vga_to_hdmi1_in }
 
 extron_dvs:
     name: Extron DVS304
@@ -136,7 +150,7 @@ extron_mps:
         - { name: 'S-Video Audio Out' }
         - { name: 'VGA Video Out', gozta: *scaler_vga }
         - { name: 'VGA Audio Out' }
-        - { name: 'Master Audio Out', gozta: *pc_line_in }
+        - { name: 'Master Audio Out', gozta: [ *pc_line_in, *vga_to_hdmi1_audio_in ] }
 
 gen_m1_av:
     name: Model 1 A/V Cable
@@ -251,3 +265,17 @@ xbox:
 #    gozoutas:
 #        - { name: 'A/V out' }
 
+
+hdmi_to_vga1:
+    name: HDMI-to-VGA
+    gozintas:
+        - &hdmi_to_vga1_in { name: 'HDMI in' }
+    gozoutas:
+        - { name: 'VGA out', gozta: *sw_vga_v3 }
+        - { name: '3.5mm out', gozta: *sw_vga_a3 }
+
+nswitch:
+    name: Nintendo Switch
+    image: units/nintendo-switch.png
+    gozoutas:
+        - { name: 'HDMI out', gozta: *hdmi_to_vga1_in }
