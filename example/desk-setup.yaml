@@ -22,22 +22,29 @@ monitor3:
         - &mon3_vga { name: 'VGA In' }
 
 headphones:
-    name: Sony MDR-W08
-    image: units/sony-mdr.png
+    name: Advantree E171
+    image: units/advantree-e171.png
     gozintas:
-        - &headphones_in { name: '3.5mm In' }
+        - &headphones_inout { name: '3.5mm TRRS In/Out' }
+
+trrs_adapter:
+    name: 2xTRS to TRRS
+    gozintas:
+        - &trrs_phone_in { name: '3.5mm Phone In' }
+        - &trrs_mic_in { name: '3.5mm Mic Out' }
+    gozoutas:
+        - &trrs_trrs_inout { name: '3.5mm TRRS In/Out', gozta: *headphones_inout }
 
 pc:
     name: PC
-    image: units/pc-case.png
+    image: units/ibuypower-trace-5-mr.png
     gozintas:
         - &pc_usb { name: 'USB' }
         - &pc_line_in { name: 'Line In' }
-        - &pc_mic_in { name: 'Front Mic In' }
     gozoutas:
-        - { name: 'Intel HD Graphics 4600', gozta: *mon1_dvi }
-        - { name: 'NVIDIA GeForce GTX 650', gozta: [*mon2_dvi, *mon3_dvi] }
-        - { name: 'Front Headphone Out', gozta: *headphones_in }
+        - { name: 'NVIDIA GeForce RTX 3060', gozta: [*mon1_dvi, *mon2_dp, *mon3_dp] }
+        - { name: 'Front Headphone Out', gozta: *trrs_phone_in }
+        - { name: 'Front Mic In', gozta: *trrs_mic_in }
 
 hdmi_cap:
     name: HDMI Capture Dongle
@@ -55,8 +62,14 @@ vga_to_hdmi1:
         - { name: 'HDMI out', gozta: *hdmi_cap_in }
 
 webcam:
-    name: Logitech C910
-    image: units/logitech-c910.png
+    name: Anvask 1080p Webcam
+    image: units/anvask-1080p-webcam.png
+    gozoutas:
+        - { name: 'USB', gozta: *pc_usb }
+
+external_mic:
+    name: Blue Snowball
+    image: units/blue-snowball-white.png
     gozoutas:
         - { name: 'USB', gozta: *pc_usb }
 
