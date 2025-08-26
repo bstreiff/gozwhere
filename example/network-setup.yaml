@@ -1,0 +1,121 @@
+grunthos:
+    name: grunthos (B Desktop PC)
+    gozintas:
+        - &grunthos_enp6s0 { name: "Realtek RTL8125 2.5GbE (enp6s0)" }
+
+agda:
+    name: agda (B NAS)
+    gozintas:
+        - &agda_eno1 { name: "Realtek RTL8125 2.5GbE (eno1)" }
+        - &agda_eno2 { name: "Realtek RTL8153 1GbE (eno2)" }
+
+beaglebone:
+    name: BeagleBone
+    gozintas:
+        - &bb_eth { name: "100M" }
+
+raspi:
+    name: Raspberry Pi
+    gozintas:
+        - &rpi_eth { name: "100M" }
+
+xbox:
+    name: Xbox
+    gozintas:
+        - &xbox_eth { name: "100M" }
+
+ps4:
+    name: PlayStation 4
+    gozintas:
+        - &ps4_eth { name: "1G" }
+
+steam_link:
+    name: Steam Link
+    gozintas:
+        - &steam_eth { name: "1G" }
+
+smart_tv:
+    name: The Laggy Smart TV
+    gozintas:
+        - &tv_eth { name: "1G" }
+
+j_raspi:
+    name: Raspberry Pi
+    gozintas:
+        - &j_rpi_eth { name: "100M" }
+
+j_plaptop:
+    name: J Personal Laptop Dock
+    gozintas:
+        - &j_plaptop_eth { name: "2.5GbE" }
+
+j_wlaptop:
+    name: J Work Laptop Dock
+    gozintas:
+        - &j_wlaptop_eth { name: "2.5GbE" }
+
+j_switch:
+    name: Netgear GS308 (Office, J Desk)
+    gozoutas:
+        - &j_port0 { name: "PORT0 1G", gozta: *j_plaptop_eth }
+        - &j_port1 { name: "PORT1 1G", gozta: *j_wlaptop_eth }
+        - &j_port2 { name: "PORT2 1G", gozta: *j_rpi_eth }
+        - &j_port3 { name: "PORT3 1G" }
+        - &j_port4 { name: "PORT4 1G" }
+        - &j_port5 { name: "PORT5 1G" }
+        - &j_port6 { name: "PORT6 1G" }
+        - &j_port7 { name: "PORT7 1G" }
+        - &j_port8 { name: "PORT8 1G" }
+
+office_switch:
+    name: 6390 Dev Board (Office, B Desk)
+    gozoutas:
+        - &office_port0 { name: "PORT0 1G" }
+        - &office_port1 { name: "PORT1 1G", gozta: *j_port8 }
+        - &office_port2 { name: "PORT2 1G", gozta: *agda_eno1 }
+        - &office_port3 { name: "PORT3 1G", gozta: *grunthos_enp6s0 }
+        - &office_port4 { name: "PORT4 1G", gozta: *bb_eth }
+        - &office_port5 { name: "PORT5 1G", gozta: *rpi_eth }
+        - &office_port6 { name: "PORT6 1G", gozta: *xbox_eth }
+        - &office_port7 { name: "PORT7 1G" }
+        - &office_port8 { name: "PORT8 1G" }
+        - &office_port9 { name: "PORT9 SFP" }
+        - &office_port10 { name: "PORT10 SFP" }
+
+cat6_60ft:
+    name: "60ft cat6 cable"
+    gozoutas:
+        - &office_backbone { name: "loooooooooooooooooong", gozta: *office_port0 }
+
+lr_switch:
+    name: 6341 Dev Board (Living Room)
+    gozoutas:
+        - &lr_port0 { name: "PORT0 1G", gozta: *office_backbone }
+        - &lr_port1 { name: "PORT1 1G" }
+        - &lr_port2 { name: "PORT2 1G", gozta: *ps4_eth }
+        - &lr_port3 { name: "PORT3 1G", gozta: *steam_eth }
+        - &lr_port4 { name: "PORT4 1G", gozta: *tv_eth }
+        - &lr_port5 { name: "PORT5 SFP" }
+
+cat6_30ft:
+    name: "30ft cat6 cable"
+    gozoutas:
+        - &lr_backbone { name: "loooooong", gozta: *lr_port1 }
+
+gateway:
+    name: Q Fiber W1700K
+    gozintas:
+        - &gw_wan { name: "WAN/LAN1 10G" }
+    gozoutas:
+        - &gw_lan2 { name: "LAN2 10G", gozta: *lr_backbone }
+        - &gw_lan3 { name: "LAN3 1G" }
+        - &gw_lan4 { name: "LAN4 1G" }
+        - &gw_wifi { name: "Wifi 7" }
+
+nid:
+    name: Q Fiber Q1000K
+    gozintas:
+        - &nid_fiber { name: "Fiber" }
+        - &nid_wan { name: "10G/LAN" }
+    gozoutas:
+        - &nid_lan { name: "1G/LAN", gozta: *gw_wan }
