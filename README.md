@@ -37,5 +37,5 @@ receiver:
     # connected to; it can be a single alias, or a list of aliases (for
     # example, if you have a splitter with multiple outputs).
     gozoutas:
-	- { name: 'HDMI Out', gozta: *tv_hdmi }
+        - { name: 'HDMI Out', gozta: *tv_hdmi }
 ```
